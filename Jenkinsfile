@@ -52,6 +52,14 @@ pipeline {
                 }
             }
         }
+        stage ('Functional Test'){
+            steps {
+                dir('functional-test') {  
+                    git credentialsId: 'Github_Login', url: 'https://github.com/lecosta10/Tasks-functional-tests'
+                    bat 'mvn test' 
+                }
+            }
+        }
     }
 }
 
