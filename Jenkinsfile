@@ -31,7 +31,13 @@ pipeline {
         }
         stage ('Deploy Backend'){
             steps {
-                deploy adapters: [tomcat8(credentialsId: 'tomcatlogin', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks-backend', war: 'target/tasks-backend.war'
+                deploy adapters: [tomcat8(credentialsId: 'tomcatlogin', path: '', url: 'http://localhost:8001')], contextPath: 'tasks-backend', war: 'target/tasks-backend.war'
+            }
+        }
+        stage ('API Test'){
+            steps {
+               git credentialsId: 'Github_Login', url: 'https://github.com/lecosta10/Tasks-API-test'
+               bat 'mvn test'
             }
         }
     }
