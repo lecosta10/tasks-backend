@@ -42,7 +42,19 @@ pipeline {
                 }
             }
         }
+        stage ('Deploy Frontend'){
+            steps {
+                dir ('Frontend') {  
+                    git credentialsId: 'Github_Login', url: 'https://github.com/lecosta10/tasks-frontend'    
+                    bat 'mvn clean package'
+                    deploy adapters: [tomcat8(credentialsId: 'tomcatlogin', path: '', url: 'http://localhost:8001')], contextPath: 'tasks', war: 'target/tasks.war'
+
+                }
+            }
+        }
     }
 }
+
+
 
  
